@@ -6,6 +6,9 @@ public record Species
 {
     private List<Breed> _breeds;
 
+    public string Name { get; } = string.Empty;
+    public IReadOnlyList<Breed> Breeds => _breeds;
+    
     //ef core
     private Species()
     {
@@ -17,10 +20,7 @@ public record Species
         Name = name;
         _breeds = new List<Breed>(breeds);
     }
-
-    public string Name { get; } = string.Empty;
-    public IReadOnlyList<Breed> Breeds => _breeds;
-
+    
     public static Result<Species> Create(string name, IEnumerable<Breed> breeds)
     {
         if (string.IsNullOrEmpty(name))

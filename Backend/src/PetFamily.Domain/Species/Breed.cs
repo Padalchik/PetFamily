@@ -4,6 +4,8 @@ namespace PetFamily.Domain.Species;
 
 public record Breed
 {
+    public string Name { get; }
+
     //ef core
     private Breed()
     {
@@ -15,8 +17,6 @@ public record Breed
         Name = name;
     }
     
-    public string Name { get; }
-
     public static Result<Breed> Create(string name)
     {
         if (string.IsNullOrWhiteSpace(name))

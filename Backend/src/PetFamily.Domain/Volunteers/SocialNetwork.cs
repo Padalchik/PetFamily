@@ -4,6 +4,9 @@ namespace PetFamily.Domain.Volunteers;
 
 public record SocialNetwork
 {
+    public string Name { get; }
+    public string Url { get;}
+    
     //ef core
     private SocialNetwork(string name, string url)
     {
@@ -11,9 +14,6 @@ public record SocialNetwork
         Url = url;
     }
     
-    public string Name { get; }
-    public string Url { get;}
-
     public static Result<SocialNetwork> Create(string name, string url)
     {
         if (string.IsNullOrEmpty(name))
@@ -23,6 +23,6 @@ public record SocialNetwork
             return Result.Failure<SocialNetwork>("Url cannot be empty");
         
         var socialNetwork = new SocialNetwork(name, url);
-        return socialNetwork;
+        return Result.Success(socialNetwork);
     }
 }

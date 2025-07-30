@@ -4,16 +4,16 @@ namespace PetFamily.Domain.Volunteers;
 
 public record PaymentDetails
 {
-    public PaymentDetails(string value, string name, string description)
+    public string Name { get; }
+    public string Description { get; }
+    public string Value { get;}
+    
+    private PaymentDetails(string value, string name, string description)
     {
         Value = value;
         Name = name;
         Description = description;
     }
-
-    public string Name { get; }
-    public string Description { get; }
-    public string Value { get;}
 
     public static Result<PaymentDetails> Create(string value, string name, string description)
     {
@@ -27,5 +27,6 @@ public record PaymentDetails
             return Result.Failure<PaymentDetails>("Description cannot be empty");
         
         var paymentDetails = new PaymentDetails(value, name, description);
+        return Result.Success(paymentDetails);
     }
 }
