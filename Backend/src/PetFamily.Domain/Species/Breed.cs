@@ -2,8 +2,9 @@ using CSharpFunctionalExtensions;
 
 namespace PetFamily.Domain.Species;
 
-public record Breed
+public class Breed
 {
+    public Guid Id { get; private set; }
     public string Name { get; }
 
     //ef core

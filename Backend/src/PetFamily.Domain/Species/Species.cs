@@ -2,10 +2,11 @@ using CSharpFunctionalExtensions;
 
 namespace PetFamily.Domain.Species;
 
-public record Species
+public class Species
 {
     private List<Breed> _breeds;
-
+    
+    public Guid Id { get; private set; }
     public string Name { get; } = string.Empty;
     public IReadOnlyList<Breed> Breeds => _breeds;
     

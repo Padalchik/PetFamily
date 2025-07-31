@@ -17,7 +17,7 @@ public class Volunteer : Entity
     public int PetsFoundHome => GetPetsByStatus(HelpStatus.FoundHome).Count;
     public int PetsNeedHome => GetPetsByStatus(HelpStatus.NeedHome).Count;
     public int PetsNeedHelp => GetPetsByStatus(HelpStatus.NeedHelp).Count;
-    public string PhoneNumber { get; private set; } = string.Empty;
+    public Phone.Phone Phone { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
     public IReadOnlyList<PaymentDetails> PaymentDetails => _paymentDetails;
     public IReadOnlyList<Pet> PetsOwned => _petsOwned;
@@ -27,25 +27,25 @@ public class Volunteer : Entity
     {
     }
 
-    private Volunteer(string fio, string email, string description, int yearsOfExperience, IEnumerable<Pet> pets,
+    private Volunteer(string fio, string email, string description, int yearsOfExperience, Phone.Phone phone,
         IEnumerable<SocialNetwork> socialNetworks, IEnumerable<PaymentDetails> paymentDetails)
     {
         FIO = fio;
         Email = email;
         Description = description;
+        Phone = phone;
         YearsOfExperience = yearsOfExperience;
-        _petsOwned = new List<Pet>(pets);
         _socialNetworks = new List<SocialNetwork>(socialNetworks);
         _paymentDetails = new List<PaymentDetails>(paymentDetails);
     }
     
-    public static Result<Volunteer> Create(string fio, string email, string description, int yearsOfExperience, IEnumerable<Pet> pets,
+    public static Result<Volunteer> Create(string fio, string email, string description, int yearsOfExperience, Phone.Phone phone,
         IEnumerable<SocialNetwork> socialNetworks, IEnumerable<PaymentDetails> paymentDetails)
     {
         if (string.IsNullOrWhiteSpace(fio))
             Result.Failure<Volunteer>("Fio cannot be null or empty");
         
-        var volunteer = new Volunteer(fio, email, description, yearsOfExperience, pets, socialNetworks, paymentDetails);
+        var volunteer = new Volunteer(fio, email, description, yearsOfExperience, phone, socialNetworks, paymentDetails);
         return Result.Success(volunteer);
     }
     
