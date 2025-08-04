@@ -9,7 +9,7 @@ public class Volunteer : Entity
     private readonly List<SocialNetwork> _socialNetworks = [];
     private readonly List<Pet> _petsOwned = [];
     
-    public Guid Id { get; private set; }
+    public VolunteerId Id { get; private set; }
     public string FIO { get; private set; }
     public string Email { get; private set; }
     public string Description { get; private set; } = string.Empty;
@@ -27,9 +27,10 @@ public class Volunteer : Entity
     {
     }
 
-    private Volunteer(string fio, string email, string description, int yearsOfExperience, Phone.Phone phone,
+    private Volunteer(VolunteerId id, string fio, string email, string description, int yearsOfExperience, Phone.Phone phone,
         IEnumerable<SocialNetwork> socialNetworks, IEnumerable<PaymentDetails> paymentDetails)
     {
+        Id = id;
         FIO = fio;
         Email = email;
         Description = description;
@@ -39,13 +40,13 @@ public class Volunteer : Entity
         _paymentDetails = new List<PaymentDetails>(paymentDetails);
     }
     
-    public static Result<Volunteer> Create(string fio, string email, string description, int yearsOfExperience, Phone.Phone phone,
+    public static Result<Volunteer> Create(VolunteerId id, string fio, string email, string description, int yearsOfExperience, Phone.Phone phone,
         IEnumerable<SocialNetwork> socialNetworks, IEnumerable<PaymentDetails> paymentDetails)
     {
         if (string.IsNullOrWhiteSpace(fio))
             Result.Failure<Volunteer>("Fio cannot be null or empty");
         
-        var volunteer = new Volunteer(fio, email, description, yearsOfExperience, phone, socialNetworks, paymentDetails);
+        var volunteer = new Volunteer(id, fio, email, description, yearsOfExperience, phone, socialNetworks, paymentDetails);
         return Result.Success(volunteer);
     }
     
