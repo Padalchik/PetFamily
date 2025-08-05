@@ -17,6 +17,11 @@ public class ApplicationDBContext(IConfiguration configuration) : DbContext
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDBContext).Assembly);
+    }
+
     private ILoggerFactory CreateLoggerFactory()
     {
         return LoggerFactory.Create(builder => builder.AddConsole());
