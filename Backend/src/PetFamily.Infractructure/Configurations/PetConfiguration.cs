@@ -38,7 +38,32 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         
         builder.OwnsOne(p => p.HealthInfo, hi =>
         {
+            hi.Property(prop => prop.Description)
+                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+            
             hi.ToJson();
         });
+
+        builder.OwnsOne(p => p.Address, pi =>
+        {
+            pi.Property(pr => pr.City)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            
+            pi.Property(pr => pr.Street)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            
+            pi.Property(pr => pr.HouseNumber)
+                .IsRequired(false)
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+        });
+
+        builder.OwnsOne(p => p.PhoneNumber, pi =>
+        {
+            pi.ToJson();
+        });
+        
+        
     }
 }
