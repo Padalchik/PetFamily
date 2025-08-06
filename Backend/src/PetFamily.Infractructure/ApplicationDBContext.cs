@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Pets;
+using PetFamily.Domain.Species;
+using PetFamily.Domain.Volunteers;
 
 namespace PetFamily.Infractructure;
 
@@ -9,7 +11,8 @@ public class ApplicationDBContext(IConfiguration configuration) : DbContext
 {
     private const string DATABASE = "Database";
     
-    public DbSet<Pet> Pets => Set<Pet>();
+    public DbSet<Volunteer> Volunteers => Set<Volunteer>();
+    public DbSet<Species> Species => Set<Species>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

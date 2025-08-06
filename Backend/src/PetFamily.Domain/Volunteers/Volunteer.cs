@@ -7,7 +7,7 @@ public class Volunteer : Entity
 {
     private readonly List<PaymentDetails> _paymentDetails = [];
     private readonly List<SocialNetwork> _socialNetworks = [];
-    private readonly List<Pet> _petsOwned = [];
+    private readonly List<Pet> _pets = [];
     
     public VolunteerId Id { get; private set; }
     public string FIO { get; private set; }
@@ -20,7 +20,7 @@ public class Volunteer : Entity
     public Phone.Phone Phone { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
     public IReadOnlyList<PaymentDetails> PaymentDetails => _paymentDetails;
-    public IReadOnlyList<Pet> PetsOwned => _petsOwned;
+    public IReadOnlyList<Pet> Pets => _pets;
     
     //ef core
     private Volunteer()
@@ -52,6 +52,6 @@ public class Volunteer : Entity
     
     private List<Pet> GetPetsByStatus(HelpStatus status)
     {
-        return _petsOwned.Where(p => p.HelpStatus == status).ToList();
+        return _pets.Where(p => p.HelpStatus == status).ToList();
     }
 }
