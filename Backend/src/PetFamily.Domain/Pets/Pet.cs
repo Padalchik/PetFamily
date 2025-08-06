@@ -7,7 +7,7 @@ public class Pet : Entity
 {
     private readonly List<PaymentDetails> _paymentDetails = [];
 
-    public Guid Id { get; private set; }
+    public PetId Id { get; private set; }
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
     public PetTypeInfo TypeInfo { get; private set; }
@@ -23,8 +23,9 @@ public class Pet : Entity
     {
     }
 
-    private Pet(string name, PetTypeInfo typeInfo, PetHealthInfo healthInfo, string description, Address.Address address, Phone.Phone phone, HelpStatus helpStatus, IEnumerable<PaymentDetails> paymentDetails)
+    private Pet(PetId id, string name, PetTypeInfo typeInfo, PetHealthInfo healthInfo, string description, Address.Address address, Phone.Phone phone, HelpStatus helpStatus, IEnumerable<PaymentDetails> paymentDetails)
     {
+        Id              = id;
         Name            = name;
         TypeInfo        = typeInfo;
         Description     = description;
@@ -36,7 +37,7 @@ public class Pet : Entity
         CreateDate      = DateTime.Now;
     }
     
-    public static Result<Pet> Create(string name, PetTypeInfo typeInfo, PetHealthInfo healthInfo, string description, Address.Address address, Phone.Phone phone, HelpStatus helpStatus, IEnumerable<PaymentDetails> paymentDetails)
+    public static Result<Pet> Create(PetId id, string name, PetTypeInfo typeInfo, PetHealthInfo healthInfo, string description, Address.Address address, Phone.Phone phone, HelpStatus helpStatus, IEnumerable<PaymentDetails> paymentDetails)
     {
         if (string.IsNullOrWhiteSpace(name))
             return Result.Failure<Pet>("Name is required");
@@ -44,7 +45,7 @@ public class Pet : Entity
         if (string.IsNullOrWhiteSpace(description))
             return Result.Failure<Pet>("Description is required");
 
-        var pet = new Pet(name, typeInfo, healthInfo, description, address,
+        var pet = new Pet(id, name, typeInfo, healthInfo, description, address,
             phone, helpStatus, paymentDetails);
 
         return Result.Success(pet);

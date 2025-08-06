@@ -11,12 +11,6 @@ public record PetHealthInfo
     public bool IsNeutered { get; }
     public bool IsVaccinated { get; }
     public string Description { get; }
-
-    //ef core
-    private PetHealthInfo()
-    {
-        
-    }
     
     private PetHealthInfo(Sex sex, float weightKg, float heightCm, DateTime birthDate, string description, bool isNeutered, bool isVaccinated)
     {

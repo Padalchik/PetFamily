@@ -9,11 +9,6 @@ public record Address
     public string Street { get; }
     public string HouseNumber { get; }
 
-    //ef core
-    private Address()
-    {
-    }
-
     private Address(string city, string street, string houseNumber)
     {
         City = city;

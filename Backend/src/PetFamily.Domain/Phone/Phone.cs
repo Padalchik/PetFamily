@@ -8,12 +8,6 @@ public record Phone
 {
     public string Number { get; }
 
-    //ef core
-    private Phone()
-    {
-        
-    }
-
     private Phone(string number)
     {
         Number = number;

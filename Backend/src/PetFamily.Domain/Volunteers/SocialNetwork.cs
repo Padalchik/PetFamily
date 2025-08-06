@@ -7,7 +7,6 @@ public record SocialNetwork
     public string Name { get; }
     public string Url { get;}
     
-    //ef core
     private SocialNetwork(string name, string url)
     {
         Name = name;

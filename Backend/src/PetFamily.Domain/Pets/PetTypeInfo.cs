@@ -7,13 +7,7 @@ public record PetTypeInfo
     public Guid SpeciesId { get; }
     public Guid BreedId { get; }
     public string Color { get; }
-    
-    //ef core
-    private PetTypeInfo()
-    {
-        
-    }
-    
+
     private PetTypeInfo(Guid speciesId, Guid breedId, string color)
     {
         SpeciesId = speciesId;

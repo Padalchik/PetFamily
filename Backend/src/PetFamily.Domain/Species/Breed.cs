@@ -4,7 +4,7 @@ namespace PetFamily.Domain.Species;
 
 public class Breed
 {
-    public Guid Id { get; private set; }
+    public BreedId Id { get; private set; }
     public string Name { get; }
 
     //ef core
@@ -13,17 +13,18 @@ public class Breed
         
     }
     
-    private Breed(string name)
+    private Breed(BreedId id, string name)
     {
+        Id = id;
         Name = name;
     }
     
-    public static Result<Breed> Create(string name)
+    public static Result<Breed> Create(BreedId id, string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             return Result.Failure<Breed>("Breed name cannot be empty");
 
-        var breed = new Breed(name);
+        var breed = new Breed(id, name);
         return Result.Success(breed);
     }
 }
