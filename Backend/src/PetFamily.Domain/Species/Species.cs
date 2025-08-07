@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Species;
 
@@ -23,12 +24,12 @@ public class Species
         _breeds = new List<Breed>(breeds);
     }
     
-    public static Result<Species> Create(SpeciesId id, string name, IEnumerable<Breed> breeds)
+    public static Result<Species, Error> Create(SpeciesId id, string name, IEnumerable<Breed> breeds)
     {
         if (string.IsNullOrEmpty(name))
-            return Result.Failure<Species>("Species name cannot be empty");
+            return Errors.General.ValueIsRequired("Species name");
 
         var species = new Species(id, name, breeds);
-        return Result.Success(species);
+        return Result.Success<Domain.Species.Species, Error>(species);
     }
 }

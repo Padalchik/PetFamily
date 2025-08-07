@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Pets;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Volunteers;
 
@@ -40,14 +41,14 @@ public class Volunteer : Entity
         _paymentDetails = new List<PaymentDetails>(paymentDetails);
     }
     
-    public static Result<Volunteer> Create(VolunteerId id, string fio, string email, string description, int yearsOfExperience, Phone.Phone phone,
+    public static Result<Volunteer, Error> Create(VolunteerId id, string fio, string email, string description, int yearsOfExperience, Phone.Phone phone,
         IEnumerable<SocialNetwork> socialNetworks, IEnumerable<PaymentDetails> paymentDetails)
     {
         if (string.IsNullOrWhiteSpace(fio))
-            Result.Failure<Volunteer>("Fio cannot be null or empty");
+            return Errors.General.ValueIsRequired("FIO");
         
         var volunteer = new Volunteer(id, fio, email, description, yearsOfExperience, phone, socialNetworks, paymentDetails);
-        return Result.Success(volunteer);
+        return Result.Success<Volunteer, Error>(volunteer);
     }
     
     private List<Pet> GetPetsByStatus(HelpStatus status)

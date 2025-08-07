@@ -1,5 +1,6 @@
 ﻿using System.Security.AccessControl;
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Address;
 
@@ -16,19 +17,19 @@ public record Address
         HouseNumber = houseNumber;
     }
 
-    public static Result<Address> Create(string city, string street, string houseNumber)
+    public static Result<Address, Error> Create(string city, string street, string houseNumber)
     {
         if (string.IsNullOrEmpty(city))
-            return Result.Failure<Address>("City cannot be empty");
+            return Errors.General.ValueIsRequired("City");
         
         if (string.IsNullOrEmpty(street))
-            return Result.Failure<Address>("Street cannot be empty");
+            return Errors.General.ValueIsRequired("Street");
         
         if (string.IsNullOrEmpty(houseNumber))
-            return Result.Failure<Address>("House number cannot be empty");
+            return Errors.General.ValueIsRequired("House");
         
         var address = new Address(city, street, houseNumber);
-        return Result.Success(address);
+        return Result.Success<Address, Error>(address);
     }
     
     public override string ToString()

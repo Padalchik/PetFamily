@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Pets;
 
@@ -23,18 +24,25 @@ public record PetHealthInfo
         IsVaccinated = isVaccinated;
     }
 
-    public static Result<PetHealthInfo> Create(Sex sex, float weightKg, float heightCm, DateTime birthDate, string description, bool isNeutered, bool isVaccinated)
+    public static Result<PetHealthInfo, Error> Create(Sex sex, float weightKg, float heightCm, DateTime birthDate, string description, bool isNeutered, bool isVaccinated)
     {
         if (string.IsNullOrWhiteSpace(description))
-            return Result.Failure<PetHealthInfo>("Description cannot be empty.");
+            return Errors.General.ValueIsRequired("Description");
 
         if (weightKg <= 0)
-            return Result.Failure<PetHealthInfo>("WeightKg cannot be less than zero.");
+            return Errors.General.ValueIsInvalid("WeightKg");
         
         if (heightCm <= 0)
-            return Result.Failure<PetHealthInfo>("HeightCm cannot be less than zero.");
+            return Errors.General.ValueIsInvalid("HeightCm");
         
         var petHealthInfo = new PetHealthInfo(sex, weightKg, heightCm, birthDate ,description, isNeutered, isVaccinated);
-        return Result.Success(petHealthInfo);
+        return Result.Success<PetHealthInfo, Error>(petHealthInfo);
     }
+}
+
+public enum Sex
+{
+    None = 0,
+    Male = 1,
+    Female = 2
 }
