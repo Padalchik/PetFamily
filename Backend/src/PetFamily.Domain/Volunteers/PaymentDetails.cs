@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Volunteers;
 
@@ -15,18 +16,18 @@ public record PaymentDetails
         Description = description;
     }
 
-    public static Result<PaymentDetails> Create(string value, string name, string description)
+    public static Result<PaymentDetails, Error> Create(string value, string name, string description)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return Result.Failure<PaymentDetails>("Value cannot be empty");
+            return Errors.General.ValueIsRequired("Value");
         
         if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure<PaymentDetails>("Name cannot be empty");
+            return Errors.General.ValueIsRequired("Name");
         
         if (string.IsNullOrWhiteSpace(description))
-            return Result.Failure<PaymentDetails>("Description cannot be empty");
+            return Errors.General.ValueIsRequired("Description");
         
         var paymentDetails = new PaymentDetails(value, name, description);
-        return Result.Success(paymentDetails);
+        return Result.Success<PaymentDetails, Error>(paymentDetails);
     }
 }

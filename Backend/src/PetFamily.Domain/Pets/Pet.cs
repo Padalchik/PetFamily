@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 using PetFamily.Domain.Volunteers;
 
 namespace PetFamily.Domain.Pets;
@@ -37,17 +38,25 @@ public class Pet : Entity
         CreateDate      = DateTime.Now;
     }
     
-    public static Result<Pet> Create(PetId id, string name, PetTypeInfo typeInfo, PetHealthInfo healthInfo, string description, Address.Address address, Phone.Phone phone, HelpStatus helpStatus, IEnumerable<PaymentDetails> paymentDetails)
+    public static Result<Pet, Error> Create(PetId id, string name, PetTypeInfo typeInfo, PetHealthInfo healthInfo, string description, Address.Address address, Phone.Phone phone, HelpStatus helpStatus, IEnumerable<PaymentDetails> paymentDetails)
     {
         if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure<Pet>("Name is required");
+            return Errors.General.ValueIsRequired("Name");
 
         if (string.IsNullOrWhiteSpace(description))
-            return Result.Failure<Pet>("Description is required");
+            return Errors.General.ValueIsInvalid("Description");
 
         var pet = new Pet(id, name, typeInfo, healthInfo, description, address,
             phone, helpStatus, paymentDetails);
 
-        return Result.Success(pet);
+        return Result.Success<Pet, Error>(pet);
     }
+}
+
+public enum HelpStatus
+{
+    None = 0,
+    NeedHelp = 1,
+    NeedHome = 2,
+    FoundHome = 3,
 }

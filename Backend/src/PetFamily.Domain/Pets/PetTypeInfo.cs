@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Pets;
 
@@ -15,18 +16,18 @@ public record PetTypeInfo
         Color = color;
     }
     
-    public static Result<PetTypeInfo> Create(Guid speciesId, Guid breedId,  string color)
+    public static Result<PetTypeInfo, Error> Create(Guid speciesId, Guid breedId,  string color)
     {
         if (speciesId == Guid.Empty)
-            Result.Failure("SpeciesId cannot be empty");
+            return Errors.General.ValueIsRequired("SpeciesId");
             
         if (breedId == Guid.Empty)
-            Result.Failure("BreedId cannot be empty");
+            return Errors.General.ValueIsRequired("BreedId");
         
         if (string.IsNullOrEmpty(color))
-            Result.Failure("Color cannot be empty");
+            return Errors.General.ValueIsRequired("Color");
 
         var petTypeInfo = new PetTypeInfo(speciesId, breedId,  color);
-        return Result.Success(petTypeInfo);
+        return Result.Success<PetTypeInfo, Error>(petTypeInfo);
     }
 }
